@@ -48,11 +48,7 @@
     )
 )
 
-;; @brief
-;; Determines the token type of a given string
-;; @param token String to determine the type
-;; @return Token type (palabraClave, operador, delimitador, comentario, 
-;;         string, numero, identificador) or false if it is not a valid token
+;; Definir la funcion que sirve para asignar tokens dependiendo el tipo
 (define (classify-token token)
     (cond
         [(regexp-match #rx"//." token) "comentario"]
@@ -67,11 +63,7 @@
     )
 )
 
-;; @brief
-;; Highlights the given token with the appropriate color
-;; @param token Token to highlight
-;; @param token-type Type of the token
-;; @return Token highlighted with the appropriate color
+;; Definir funcion que asigna un color dependiendo el tokrn
 (define (highlight-token token token-type)
     (cond
         [(equal? token-type "palabraClave") 
@@ -106,10 +98,7 @@
     )
 )
 
-;; @brief
-;; Tokenizes a given line
-;; @param line Line to tokenize
-;; @return List of tokens
+;; Le da un token a una linea
 (define (tokenize-line line open-block-comentario)
     (define word '())
     (define list-line '())
@@ -197,10 +186,7 @@
     tokenized-line
 )
 
-;; @brief
-;; Tokenizes a given file
-;; @param file-name Name of the file to tokenize
-;; @return List of lines with the tokens highlighted
+;; Le da un token a un archivo
 (define (tokenize-file file-name)
     (let ((in-port (read-file file-name)))
         (let loop ((tokens '()))
@@ -214,11 +200,7 @@
     )
 )
 
-
-;; @brief
-;; Writes a list of lines to a file
-;; @param file-name Name of the file to write
-;; @param lines List of lines to write
+;; Escribe las lineas en un archivo
 (define (write-file file-name lines)
     (define out (open-output-file file-name))
 
