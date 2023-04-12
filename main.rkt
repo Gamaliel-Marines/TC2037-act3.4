@@ -1,67 +1,257 @@
-;; main.rkt
-;; Gamaliel Marines Olvera A01708746
-;; Rodrigo Teran
-;; Diego Perdomo
+;;Gamaliel Marines Olvera
 
 #lang racket
 
-;; Librerias del programa
+;; Librerias
 (require racket/string)
 (require racket/match)
 (require racket/file)
 (require racket/hash)
 
-;; Lee un archivo y devuelve una lista de lineas
-;; resive como parametro el nombre del archivo que lee
+;; Lo que hace es abrir y leer un archivo
 (define (read-file file-name)
     (open-input-file file-name)
 )
 
 
-;; Definir palabras clave (en orden alfabetico)
-(define keywords
+;; Definir en una lista las palabras reservadas de C#
+(define palabrasClave
   (list 
-    "abstract" "as" "base" "bool" "break" "byte" "case" "catch" "char" "checked" "class" "const" "continue" "decimal" "default" "delegate" "do" "double" "else" "endif" "enum" "event" "explicit" "extern" "false" "finally" "fixed" "float" "for" "foreach" "goto" "if" "implicit" "in" "int" "interface" "internal" "is" "lock" "long" "namespace" "new" "null" "object" "operator" "out" "override" "params" "private" "protected" "public" "readonly" "ref" "return" "sbyte" "sealed" "short" "sizeof" "stackalloc" "static" "string" "struct" "switch" "this" "throw" "true" "try" "typeof" "uint" "ulong" "unchecked" "unsafe" "ushort" "using" "virtual" "void" "volatile" "while" "#if" "#endif" "#else"
+    "abstract" "as" "base" "bool" "break" "byte" "case" "catch" "char" "checked" "class" "const" "continue" "decimal" "default" "delegate" "do" "double" "else" "endif" "enum" "event" "explicit" "extern" "false" "finally" "fixed" "float" "for" "foreach" "goto" "if" "implicit" "in" "int" "interface" "internal" "is" "lock" "long" "namespace" "new" "null" "object" "operador" "out" "override" "params" "private" "protected" "public" "readonly" "ref" "return" "sbyte" "sealed" "short" "sizeof" "stackalloc" "static" "string" "struct" "switch" "this" "throw" "true" "try" "typeof" "uint" "ulong" "unchecked" "unsafe" "ushort" "using" "virtual" "void" "volatile" "while" "#if" "#endif" "#else"
    )
 )
 
-
-;; Definir los operadores
-(define operators
+;; Definir en una lista los operadores de C#
+(define operadores
     (list
         "+" "-" "*" "/" "%" "^" "&" "|" "~" "!" "=" "<" ">" "?" ":" ";" "," "." "++" "--" "&&" "||" "==" "!=" "<=" ">=" "+=" "-=" "*=" "/=" "%=" "^=" "&=" "|=" "<<=" ">>=" "=>" "??"
     )
 )
 
-;; Definir los delimitadores
-(define delimiters
+;; Definir en una lista los delimitadores de C#
+(define delimitadores
     (list
         "(" ")" "{" "}" "[" "]"
     )
 )
 
-;; Definir la funcion main con los parametros "input-file" y "output-file" 
-;;  input-file es el archivo que va a leer y output-file el que va a escribir
+;; Definir los colores para el resaltador
+(define colores
+    (hash 
+    "palabraClave" "palabraClave"
+    "operador" "operador"
+    "delimitador" "delimitador"
+    "comentario" "comentario"
+    "string" "string"
+    "numero" "numero"
+    "identificador" "identificador"
+    )
+)
+
+;; @brief
+;; Determines the token type of a given string
+;; @param token String to determine the type
+;; @return Token type (palabraClave, operador, delimitador, comentario, 
+;;         string, numero, identificador) or false if it is not a valid token
+(define (classify-token token)
+    (cond
+        [(regexp-match #rx"//." token) "comentario"]
+        [(regexp-match #rx"/*.*/" token) "comentario"]
+        [(member token operadores) "operador"]
+        [(member token palabrasClave) "palabraClave"]
+        [(member token delimitadores) "delimitador"]
+        [(regexp-match? #rx"^\".*\"$" token) "string"]
+        [(regexp-match? #rx"^[0-9x]+$" token) "numero"]
+        [(regexp-match? #rx"^[a-zA-Z_][a-zA-Z0-9_]*$" token) "identificador"]
+        [else #f]
+    )
+)
+
+;; @brief
+;; Highlights the given token with the appropriate color
+;; @param token Token to highlight
+;; @param token-type Type of the token
+;; @return Token highlighted with the appropriate color
+(define (highlight-token token token-type)
+    (cond
+        [(equal? token-type "palabraClave") 
+            (string-append "<span class=\""
+            (hash-ref colores "palabraClave") "\">" token "</span>")]
+
+        [(equal? token-type "operador") 
+            (string-append "<span class=\""
+            (hash-ref colores "operador") "\">" token "</span>")]
+
+        [(equal? token-type "delimitador") 
+            (string-append "<span class=\""
+            (hash-ref colores "delimitador") "\">" token "</span>")]
+
+        [(equal? token-type "comentario") 
+            (string-append "<span class=\""
+            (hash-ref colores "comentario") "\">" token "</span>")]
+            
+        [(equal? token-type "string") 
+            (string-append "<span class=\""
+            (hash-ref colores "string") "\">" token "</span>")]
+
+        [(equal? token-type "numero") 
+            (string-append "<span class=\""
+            (hash-ref colores "numero") "\">" token "</span>")]
+
+        [(equal? token-type "identificador") 
+            (string-append "<span class=\""
+            (hash-ref colores "identificador") "\">" token "</span>")]
+
+        [else token]
+    )
+)
+
+;; @brief
+;; Tokenizes a given line
+;; @param line Line to tokenize
+;; @return List of tokens
+(define (tokenize-line line open-block-comentario)
+    (define word '())
+    (define list-line '())
+    (define tokenized-line '())
+    (define open-quotes #f)
+
+    (define possible-line-comentario #f)
+    (define open-line-comentario #f)
+
+    ; Split the line into characters
+    (define chars (regexp-split #px"" line))
+
+     (for/last ([char chars])
+      ; If no match is found in the last character, add the word to the list
+      (when (and (eq? char (last chars)) (or open-line-comentario open-block-comentario))
+        (set! list-line (append list-line (list word))))
+
+      ; Match the character with the regular expressions
+      (cond 
+        [open-block-comentario (set! word (append word (list char)))]
+
+        [(regexp-match #rx"#" char) (set! word (append word (list char)))]
+
+        [(regexp-match? #rx"[a-zA-Z0-9_]" char)
+         (set! word (append word (list char)))]
+
+        ; Match for line comentarios
+        [(regexp-match #px"/" char) 
+          (cond 
+            [possible-line-comentario 
+              ((lambda () 
+                (set! possible-line-comentario #f)
+                (set! open-line-comentario #t)
+                (set! word (append word (list char)))))]
+            [else 
+              ((lambda () 
+                (set! possible-line-comentario #t)
+                (set! word (append word (list char)))))])]
+
+        [open-line-comentario (set! word (append word (list char)))]
+
+        ; Match for strings
+        [(regexp-match? #px"\"" char)
+         (cond
+           [open-quotes 
+            ((lambda ()
+               (set! open-quotes #f)
+               (set! word (append word (list char)))
+               (set! list-line (append list-line (list word)))
+               (set! word '())))]
+            [else ((lambda () 
+              (set! open-quotes #t)
+              (set! word (append word (list char)))))])]
+
+        [open-quotes (set! word (append word (list char)))]
+
+        ; Match for operadores
+        [(regexp-match? #px"[\\.\\,\\;\\(\\)\\{\\}\\[\\]\\=\\+\\-\\*\\/\\%\\>\\<\\:]" char)
+         ((lambda ()
+            (set! list-line (append list-line (list word)))
+            (set! word '())
+            (set! word (append word (list char)))
+            (set! list-line (append list-line (list word)))
+            (set! word '())))]
+
+        ; Match for any other character
+        [else
+         ((lambda ()
+            (set! list-line (append list-line (list word)))
+            (set! word '())))])
+    )
+
+    (define tokens (map (lambda (x) (string-join x "")) list-line))
+
+    (for ([token tokens])
+        (define token-type (classify-token token))
+        (when open-block-comentario (set! token-type "comentario"))
+        (if token-type
+            (set! tokenized-line (append tokenized-line 
+                                 (list (highlight-token token token-type))))
+            (set! tokenized-line (append tokenized-line (list token)))
+        )
+    )
+
+    tokenized-line
+)
+
+;; @brief
+;; Tokenizes a given file
+;; @param file-name Name of the file to tokenize
+;; @return List of lines with the tokens highlighted
+(define (tokenize-file file-name)
+    (let ((in-port (read-file file-name)))
+        (let loop ((tokens '()))
+
+        (let ((line (read-line in-port)))
+            (if (eof-object? line)
+                (reverse tokens)
+                (loop (append tokens (tokenize-line line))))
+            )
+        )
+    )
+)
+
+
+;; @brief
+;; Writes a list of lines to a file
+;; @param file-name Name of the file to write
+;; @param lines List of lines to write
+(define (write-file file-name lines)
+    (define out (open-output-file file-name))
+
+    (for ([line lines])
+        (displayln line out)
+    )
+
+    (close-output-port out)
+)
+
+;; Definir la funcion main con sus parametros
+;; Los parametros input-file y output-file
+;; Son para los archivos que se van a abrir y crear
 (define (main input-file output-file)
   (define input-lines (file->lines input-file))
   (define output-port (open-output-file output-file))
-  (define html-header "<html><head><title>Resaltador de sintaxis</title> <link rel='stylesheet' href='./style.css' type='text/css' /></head><body>")
+  (define html-header "<html><head><title>C# Lexer</title><link rel='stylesheet' href='./style.css' type='text/css' /></head><body>")
   (define html-footer "</body></html>")
   (write-string html-header output-port)
 
-  (define open-block-comment #f)
+  (define open-block-comentario #f)
 
   (for-each (lambda (line)
               (write-string (string-append "<pre>") output-port)
 
-              (when (not open-block-comment) 
-                  (set! open-block-comment (regexp-match? #px"/\\*" line)))
+              (when (not open-block-comentario) 
+                  (set! open-block-comentario (regexp-match? #px"/\\*" line)))
                   
-              (define tokens (tokenize-line line open-block-comment))
+              (define tokens (tokenize-line line open-block-comentario))
               (define formatted-line (string-join tokens " "))
 
-              (when open-block-comment
-                  (set! open-block-comment (not (regexp-match? #px"\\*/" line))))
+              (when open-block-comentario
+                  (set! open-block-comentario (not (regexp-match? #px"\\*/" line))))
 
               (write-string (string-append formatted-line " ") output-port)
               (write-string (string-append "</pre>\n") output-port))
@@ -71,6 +261,7 @@
   (close-output-port output-port))
 
 
-;; se manda a llamar a la funcion main
-;; en los parametros se ingresan los nombres de los archivos
+;; se manda a llamar la Funcion main
+;; los parametros son los nombres de los archivos
+;; que se va a abriri y leer y del que se va a crear
 (main "TestFile.cs" "TestFileHTML.html")
