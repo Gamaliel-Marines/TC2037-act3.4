@@ -39,3 +39,30 @@
         "(" ")" "{" "}" "[" "]"
     )
 )
+
+;; Definir header HTML
+(define headerHTML(list "<!DOCTYPE html>"
+        "<html>"
+        "<head>"
+            "<meta charset=\"UTF-8\">"
+            "<style>"
+                   "body{ white-space: pre; font-family: Courier New; font-size: 14px }"
+                   "h3{ text-align: center }"
+                   ".center { display: block; margin-left: auto; margin-right: auto; width: 75px; height: 75px ;}"
+                   ".numero{ color: orange; }"
+                   ".booleano{ color: red; }"
+                   ".condicional{ color: magenta; }"
+                   ".extra{ color: hotpink; }"
+                   ".operador{ color: blue; }"
+                   ".header{ color: YellowGreen; }"
+            "</style>"
+            "<title>Resaltador de sintaxis</title>"
+        "</head>"
+        "<body>"
+            "<img src=https://m.media-amazon.com/images/I/91-Db4L6xjL.png alt=boom class=center>"
+            "<h3> Resaltador de Sintaxis</h3>"
+            "<br>"))
+
+; Lista del Cierre HTML del archivo de Salida
+(define finalHTML(list "</body>"
+        "</html>"))
