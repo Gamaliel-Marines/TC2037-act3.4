@@ -217,7 +217,7 @@
 (define (main input-file output-file)
   (define input-lines (file->lines input-file))
   (define output-port (open-output-file output-file))
-  (define html-header "<html><head><title>C# Lexer</title><link rel='stylesheet' href='./style.css' type='text/css' /></head><body>")
+  (define html-header "<html><head><title>Resaltador</title><link rel='stylesheet' href='./style.css' type='text/css' /></head><body>")
   (define html-footer "</body></html>")
   (write-string html-header output-port)
 

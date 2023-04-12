@@ -1,0 +1,39 @@
+
+body {
+  font-family: "Anuphan", sans-serif;
+  background: #22272e;
+}
+
+.palabraClave {
+  color: #f75344;
+}
+
+.operador {
+  color: #e6adfc;
+  margin: 0 -7px;
+  display: inline-block;
+}
+
+.delimitador {
+  color: #3dc0f3;
+  margin: 0 -7px;
+  display: inline-block;
+}
+
+.comentario {
+  color: #888888;
+}
+
+.string {
+  color: #8ce67a;
+  margin-right: -7px;
+  display: inline-block;
+}
+
+.numero {
+  color: #54b6ff;
+}
+
+.identificador {
+  color: #ff8e5a;
+}
