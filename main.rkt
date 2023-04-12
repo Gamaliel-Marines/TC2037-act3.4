@@ -40,29 +40,37 @@
     )
 )
 
-;; Definir header HTML
-(define headerHTML(list "<!DOCTYPE html>"
-        "<html>"
-        "<head>"
-            "<meta charset=\"UTF-8\">"
-            "<style>"
-                   "body{ white-space: pre; font-family: Courier New; font-size: 14px }"
-                   "h3{ text-align: center }"
-                   ".center { display: block; margin-left: auto; margin-right: auto; width: 75px; height: 75px ;}"
-                   ".numero{ color: orange; }"
-                   ".booleano{ color: red; }"
-                   ".condicional{ color: magenta; }"
-                   ".extra{ color: hotpink; }"
-                   ".operador{ color: blue; }"
-                   ".header{ color: YellowGreen; }"
-            "</style>"
-            "<title>Resaltador de sintaxis</title>"
-        "</head>"
-        "<body>"
-            "<img src=https://m.media-amazon.com/images/I/91-Db4L6xjL.png alt=boom class=center>"
-            "<h3> Resaltador de Sintaxis</h3>"
-            "<br>"))
+;; Definir la funcion main con los parametros "input-file" y "output-file" 
+;;  input-file es el archivo que va a leer y output-file el que va a escribir
+(define (main input-file output-file)
+  (define input-lines (file->lines input-file))
+  (define output-port (open-output-file output-file))
+  (define html-header "<html><head><title>Resaltador de sintaxis</title> <link rel='stylesheet' href='./style.css' type='text/css' /></head><body>")
+  (define html-footer "</body></html>")
+  (write-string html-header output-port)
 
-; Lista del Cierre HTML del archivo de Salida
-(define finalHTML(list "</body>"
-        "</html>"))
+  (define open-block-comment #f)
+
+  (for-each (lambda (line)
+              (write-string (string-append "<pre>") output-port)
+
+              (when (not open-block-comment) 
+                  (set! open-block-comment (regexp-match? #px"/\\*" line)))
+                  
+              (define tokens (tokenize-line line open-block-comment))
+              (define formatted-line (string-join tokens " "))
+
+              (when open-block-comment
+                  (set! open-block-comment (not (regexp-match? #px"\\*/" line))))
+
+              (write-string (string-append formatted-line " ") output-port)
+              (write-string (string-append "</pre>\n") output-port))
+            input-lines)
+  
+  (write-string html-footer output-port)
+  (close-output-port output-port))
+
+
+;; se manda a llamar a la funcion main
+;; en los parametros se ingresan los nombres de los archivos
+(main "TestFile.cs" "TestFileHTML.html")
