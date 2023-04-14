@@ -1,6 +1,8 @@
 /*
 ==============================================
-    ||Gamaliel Marines Olvera A01708746 ||
+    || Gamaliel Marines Olvera A01708746 ||
+    || Rodrigo Terán Hernández A01704108 ||
+    || Diego Perdomo Salcedo A01709150 ||
 ==============================================
 */
 

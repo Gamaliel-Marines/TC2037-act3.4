@@ -1,39 +1,38 @@
-
 body {
   font-family: "Anuphan", sans-serif;
-  background: #22272e;
+  background: #25292E;
 }
 
 .palabraClave {
-  color: #f75344;
+  color: #E87D85;
 }
 
 .operador {
-  color: #e6adfc;
+  color: #D3747C;
   margin: 0 -7px;
   display: inline-block;
 }
 
 .delimitador {
-  color: #3dc0f3;
+  color: #F3AF7A;
   margin: 0 -7px;
   display: inline-block;
 }
 
 .comentario {
-  color: #888888;
+  color: #6C737C;
 }
 
 .string {
-  color: #8ce67a;
+  color: #A7CAFA;
   margin-right: -7px;
   display: inline-block;
 }
 
 .numero {
-  color: #54b6ff;
+  color: #87B6F9;
 }
 
 .identificador {
-  color: #ff8e5a;
+  color: #c3acf7;
 }
