@@ -1,0 +1,60 @@
+
+    <html>
+        <head>
+            <title>TC2037 | Act3.4</title>
+            <link rel='stylesheet' href='./style.css' type='text/css' />
+        </head>
+        <body>
+<pre><span class='comentario'></span> <span class='comentario'>/*</span> </pre>
+<pre><span class='comentario'></span> <span class='comentario'>==============================================</span> </pre>
+<pre><span class='comentario'></span> <span class='comentario'>    || Gamaliel Marines Olvera A01708746 ||</span> </pre>
+<pre><span class='comentario'></span> <span class='comentario'>    || Rodrigo Terán Hernández A01704108 ||</span> </pre>
+<pre><span class='comentario'></span> <span class='comentario'>    || Diego Perdomo Salcedo A01709150 ||</span> </pre>
+<pre><span class='comentario'></span> <span class='comentario'>==============================================</span> </pre>
+<pre><span class='comentario'></span> <span class='comentario'>*/</span> </pre>
+<pre>  </pre>
+<pre> <span class='comentario'>// This program asks the user to input the lower and upper limits of the integral, </span> </pre>
+<pre> <span class='comentario'>// as well as the number of intervals to use for the trapezoidal rule. It then calculates </span> </pre>
+<pre> <span class='comentario'>// the width of each interval and uses a loop to calculate the sum of the function at the </span> </pre>
+<pre> <span class='comentario'>// midpoints of each interval. Finally, it uses the trapezoidal rule formula to calculate </span> </pre>
+<pre> <span class='comentario'>// the result of the integral and displays it to the user.</span> </pre>
+<pre>  </pre>
+<pre> <span class='comentario'>// Note that you'll need to modify the Function method to use the function you want to integrate.</span> </pre>
+<pre>  </pre>
+<pre> <span class='palabraClave'>using</span> <span class='identificador'>System</span> <span class='operador'>;</span>  </pre>
+<pre>  </pre>
+<pre> <span class='palabraClave'>class</span> <span class='identificador'>Program</span> </pre>
+<pre>  <span class='delimitador'>{</span>  </pre>
+<pre>     <span class='palabraClave'>static</span> <span class='palabraClave'>void</span> <span class='identificador'>Main</span> <span class='delimitador'>(</span> <span class='palabraClave'>string</span> <span class='delimitador'>[</span>  <span class='delimitador'>]</span>  <span class='identificador'>args</span> <span class='delimitador'>)</span>  </pre>
+<pre>      <span class='delimitador'>{</span>  </pre>
+<pre>         <span class='identificador'>Console</span> <span class='operador'>.</span> <span class='identificador'>WriteLine</span> <span class='delimitador'>(</span> <span class='string'>"Enter the lower limit of the integral:"</span>  <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>         <span class='palabraClave'>double</span> <span class='identificador'>lowerLimit</span>  <span class='operador'>=</span>  <span class='palabraClave'>double</span> <span class='operador'>.</span> <span class='identificador'>Parse</span> <span class='delimitador'>(</span> <span class='identificador'>Console</span> <span class='operador'>.</span> <span class='identificador'>ReadLine</span> <span class='delimitador'>(</span>  <span class='delimitador'>)</span>  <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>  </pre>
+<pre>         <span class='identificador'>Console</span> <span class='operador'>.</span> <span class='identificador'>WriteLine</span> <span class='delimitador'>(</span> <span class='string'>"Enter the upper limit of the integral:"</span>  <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>         <span class='palabraClave'>double</span> <span class='identificador'>upperLimit</span>  <span class='operador'>=</span>  <span class='palabraClave'>double</span> <span class='operador'>.</span> <span class='identificador'>Parse</span> <span class='delimitador'>(</span> <span class='identificador'>Console</span> <span class='operador'>.</span> <span class='identificador'>ReadLine</span> <span class='delimitador'>(</span>  <span class='delimitador'>)</span>  <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>  </pre>
+<pre>         <span class='identificador'>Console</span> <span class='operador'>.</span> <span class='identificador'>WriteLine</span> <span class='delimitador'>(</span> <span class='string'>"Enter the number of intervals:"</span>  <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>         <span class='palabraClave'>int</span> <span class='identificador'>intervals</span>  <span class='operador'>=</span>  <span class='palabraClave'>int</span> <span class='operador'>.</span> <span class='identificador'>Parse</span> <span class='delimitador'>(</span> <span class='identificador'>Console</span> <span class='operador'>.</span> <span class='identificador'>ReadLine</span> <span class='delimitador'>(</span>  <span class='delimitador'>)</span>  <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>  </pre>
+<pre>         <span class='palabraClave'>double</span> <span class='identificador'>intervalWidth</span>  <span class='operador'>=</span>   <span class='delimitador'>(</span> <span class='identificador'>upperLimit</span>  <span class='operador'>-</span>  <span class='identificador'>lowerLimit</span> <span class='delimitador'>)</span>  <span class='comentario'>/</span> <span class='identificador'>intervals</span> <span class='operador'>;</span>  </pre>
+<pre>         <span class='palabraClave'>double</span> <span class='identificador'>sum</span>  <span class='operador'>=</span>  <span class='numero'>0</span> <span class='operador'>;</span>  </pre>
+<pre>  </pre>
+<pre>         <span class='palabraClave'>for</span>  <span class='delimitador'>(</span> <span class='palabraClave'>int</span> <span class='identificador'>i</span>  <span class='operador'>=</span>  <span class='numero'>1</span> <span class='operador'>;</span>  <span class='identificador'>i</span>  <span class='operador'><</span>  <span class='identificador'>intervals</span> <span class='operador'>;</span>  <span class='identificador'>i</span> <span class='operador'>+</span>  <span class='operador'>+</span>  <span class='delimitador'>)</span>  </pre>
+<pre>          <span class='delimitador'>{</span>  </pre>
+<pre>             <span class='palabraClave'>double</span> <span class='numero'>x</span>  <span class='operador'>=</span>  <span class='identificador'>lowerLimit</span>  <span class='operador'>+</span>  <span class='identificador'>i</span>  <span class='operador'>*</span>  <span class='identificador'>intervalWidth</span> <span class='operador'>;</span>  </pre>
+<pre>             <span class='identificador'>sum</span>  <span class='operador'>+</span>  <span class='operador'>=</span>  <span class='identificador'>Function</span> <span class='delimitador'>(</span> <span class='numero'>x</span> <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>          <span class='delimitador'>}</span>  </pre>
+<pre>  </pre>
+<pre>         <span class='palabraClave'>double</span> <span class='identificador'>result</span>  <span class='operador'>=</span>  <span class='identificador'>intervalWidth</span>  <span class='operador'>*</span>   <span class='delimitador'>(</span> <span class='numero'>0</span> <span class='operador'>.</span> <span class='numero'>5</span>  <span class='operador'>*</span>   <span class='delimitador'>(</span> <span class='identificador'>Function</span> <span class='delimitador'>(</span> <span class='identificador'>lowerLimit</span> <span class='delimitador'>)</span>   <span class='operador'>+</span>  <span class='identificador'>Function</span> <span class='delimitador'>(</span> <span class='identificador'>upperLimit</span> <span class='delimitador'>)</span>  <span class='delimitador'>)</span>   <span class='operador'>+</span>  <span class='identificador'>sum</span> <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>         <span class='identificador'>Console</span> <span class='operador'>.</span> <span class='identificador'>WriteLine</span> <span class='delimitador'>(</span> <span class='string'>"The result of the integral is: "</span>   <span class='operador'>+</span>  <span class='identificador'>result</span> <span class='delimitador'>)</span>  <span class='operador'>;</span>  </pre>
+<pre>      <span class='delimitador'>}</span>  </pre>
+<pre>  </pre>
+<pre>     <span class='palabraClave'>static</span> <span class='palabraClave'>double</span> <span class='identificador'>Function</span> <span class='delimitador'>(</span> <span class='palabraClave'>double</span> <span class='numero'>x</span> <span class='delimitador'>)</span>  </pre>
+<pre>      <span class='delimitador'>{</span>  </pre>
+<pre>         <span class='comentario'>// Insert the function you want to integrate here</span> </pre>
+<pre>         <span class='palabraClave'>return</span> <span class='numero'>x</span>  <span class='operador'>*</span>  <span class='numero'>x</span> <span class='operador'>;</span>  </pre>
+<pre>      <span class='delimitador'>}</span>  </pre>
+<pre>  <span class='delimitador'>}</span>  </pre>
+
+    </body>
+    </html>
