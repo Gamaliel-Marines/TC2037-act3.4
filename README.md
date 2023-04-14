@@ -1,5 +1,26 @@
 # TC2037-act3.4
 
+<p align="center">
+    <img width=200 src='./docs//assets//racket.png' alt='Racket' alt='GitWise' />
+</p>
+<p align="center">
+    Resaltador de Sintaxis utilizando el lenguaje de programación Racket
+</p>
+
+
+# Equipo
+
+Equipo:
+
+<a href="https://github.com/Gamaliel-Marines/TC2037-act3.4">
+  <img height=50 src="https://contrib.rocks/image?repo=Gamaliel-Marines/TC2037-act3.4" />
+</a>
+
+</br>
+
+## Proyecto
+<p>
+
 1. Para este actividad, emplearemos el lenguaje de programación C#. Determina las categorías léxicas del mismo (por ejemplo, palabras reservadas, operadores, literales, comentarios, etc.)
 2. Define las expresiones regulares que emplearías para reconocer cada una de las categorías léxicas que detectaste. 
 3. Coloca tus representaciones en un archivo de texto con una estructura y organización que resulte conveniente para los siguientes pasos.
@@ -9,6 +30,6 @@
 7. Reflexiona sobre la solución planteada, los algoritmos implementados y sobre el tiempo de ejecución de estos.
 8. Calcula la complejidad de tu algoritmo basada en el número de iteraciones y contrástala con el tiempo obtenido en el punto 7.
 9. Plasma en un breve reporte de una página las conclusiones de tu reflexión en los puntos 7 y 8. Agrega además una breve reflexión sobre las implicaciones éticas que el tipo de tecnología que desarrollaste pudiera tener en la sociedad.
-
+</p>
 
 Para esta actividad se sugiere utilizar la técnica didáctica POL (Aprendizaje Basado en Proyectos, por sus siglas en inglés).
