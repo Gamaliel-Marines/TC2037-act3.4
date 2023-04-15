@@ -11,10 +11,9 @@
 # Equipo
 
 Equipo:
-
-<a href="https://github.com/Gamaliel-Marines/TC2037-act3.4">
-  <img height=50 src="https://contrib.rocks/image?repo=Gamaliel-Marines/TC2037-act3.4" />
-</a>
+- Gamaliel Marines Olvera A01708746
+- Rodrigo Terán Hernández A01704108
+- Diego Perdomo Salcedo A01709150
 
 </br>
 
